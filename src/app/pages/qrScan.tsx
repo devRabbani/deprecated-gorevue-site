@@ -18,7 +18,7 @@ export const QRScanPage: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!user) {
       router.push("/");
     }
   }, [user, loading, router]);

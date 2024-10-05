@@ -1,21 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { Decorations } from "./Decorations";
-import { useAuth } from "../contexts/AuthContext";
-import { signIn } from "../lib/firebase";
 
 export const HeroSection: React.FC = () => {
-  const { user } = useAuth();
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
-  const handleLogin = async () => {
-    try {
-      await signIn();
-    } catch (error) {
-      console.error("Error during sign in:", error);
-    }
+  const toggleForm = () => {
+    setIsFormVisible(!isFormVisible);
   };
 
   return (
@@ -35,15 +30,36 @@ export const HeroSection: React.FC = () => {
           >
             Download App
           </Link>
-          {!user && (
-            <button
-              onClick={handleLogin}
-              className="btn bg-transparent border-2 border-white hover:bg-white hover:text-primary-color transition-colors w-full sm:w-auto animate-fadeIn animation-delay-900"
-            >
-              Login with Google
-            </button>
-          )}
+          <motion.button
+            onClick={toggleForm}
+            className="btn bg-accent-color text-white hover:bg-accent-color-dark transition-colors w-full sm:w-auto animate-fadeIn animation-delay-1200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Join the waitlist
+          </motion.button>
         </div>
+        <AnimatePresence>
+          {isFormVisible && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              transition={{ duration: 0.5 }}
+              className="mt-8 bg-white rounded-lg shadow-lg p-4 max-w-2xl mx-auto"
+            >
+              <iframe
+                src="https://tally.so/r/mKJYd7?transparentBackground=1"
+                width="100%"
+                height="500"
+                frameBorder="0"
+                marginHeight={0}
+                marginWidth={0}
+                title="Join the waitlist"
+              ></iframe>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
