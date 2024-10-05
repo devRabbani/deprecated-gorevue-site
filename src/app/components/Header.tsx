@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../lib/firebase";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { signIn, signOut } from "../lib/firebase";
