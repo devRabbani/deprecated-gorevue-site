@@ -1,29 +1,46 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useZxing } from 'react-zxing';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import { useZxing } from "react-zxing";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../contexts/AuthContext";
 
 export const QRScanPage: React.FC = () => {
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState("");
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
   const { ref } = useZxing({
     onDecodeResult(result) {
       setResult(result.getText());
     },
   });
 
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/");
+    }
+  }, [user, loading, router]);
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary-color to-secondary-color text-white">
       <header className="p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">QR Code Scanner</h1>
-        <Link href="/" className="btn bg-white text-primary-color hover:bg-gray-100 transition-colors">
+        <Link
+          href="/"
+          className="btn bg-white text-primary-color hover:bg-gray-100 transition-colors"
+        >
           Back to Home
         </Link>
       </header>
       <div className="flex-grow flex flex-col items-center justify-center px-4 py-8">
         <div className="w-full max-w-md bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="relative aspect-square">
-            <video ref={ref} className="absolute inset-0 w-full h-full object-cover" />
+            <video
+              ref={ref}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
             <div className="absolute inset-0 border-4 border-white opacity-50 animate-pulse"></div>
           </div>
         </div>
@@ -39,3 +56,5 @@ export const QRScanPage: React.FC = () => {
     </div>
   );
 };
+
+export default QRScanPage;

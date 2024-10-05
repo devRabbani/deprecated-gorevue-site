@@ -1,6 +1,8 @@
-import React from 'react';
-import { QRScanPage } from '../components/QRScanPage';
+"use client";
 
-export default function QRScan() {
+import React from "react";
+import { QRScanPage } from "../pages/qrScan";
+
+export default function QRScanPageWrapper() {
   return <QRScanPage />;
 }
