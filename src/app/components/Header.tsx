@@ -5,8 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
-import { signIn, signOut, signInMobile } from "../lib/firebase";
-import { isMobile } from "react-device-detect";
+import { signIn, signOut } from "../lib/firebase";
 
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,17 +13,11 @@ export const Header: React.FC = () => {
   const router = useRouter();
 
   const handleAuth = async () => {
-    console.log("isMobile:", isMobile);
     if (user) {
       await signOut();
     } else {
       try {
-        console.log("isMobile:", isMobile);
-        if (isMobile) {
-          await signInMobile();
-        } else {
-          await signIn();
-        }
+        await signIn();
       } catch (error) {
         console.error("Error during sign in:", error);
       }

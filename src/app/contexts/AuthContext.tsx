@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { User, getRedirectResult } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { User } from "firebase/auth";
+import { auth, getRedirectResult } from "../lib/firebase";
 import { useRouter, usePathname } from "next/navigation";
 
 interface AuthContextType {
@@ -22,26 +22,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user as User);
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const handleRedirectResult = async () => {
       try {
-        const result = await getRedirectResult(auth);
-        if (result) {
-          console.log("Signed in successfully");
-          setUser(result.user);
+        const result = await getRedirectResult();
+        console.log("result:", result);
+        if (result?.user) {
+          console.log("Signed in successfully via redirect");
+          setUser(result.user as User);
         }
       } catch (error) {
         console.error("Error handling redirect result:", error);
@@ -51,6 +40,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     handleRedirectResult();
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log("User signed in:", user.uid);
+        setUser(user as User);
+      } else {
+        console.log("User signed out");
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
