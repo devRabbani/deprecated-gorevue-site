@@ -28,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setUser(result.user as User);
         }
       } catch (error) {
+        console.error("Error handling redirect result:", error);
       } finally {
         setLoading(false);
       }
