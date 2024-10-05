@@ -3,14 +3,12 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { signIn, signOut } from "../lib/firebase";
 
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, loading } = useAuth();
-  const router = useRouter();
 
   const handleAuth = async () => {
     if (user) {

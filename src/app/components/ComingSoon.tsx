@@ -6,7 +6,7 @@ const ComingSoon: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white">
       <h1 className="text-6xl font-bold mb-4">Coming Soon</h1>
       <p className="text-2xl mb-8 text-center max-w-md">
-        We're working hard to bring you something amazing. Stay tuned!
+        We&apos;re working hard to bring you something amazing. Stay tuned!
       </p>
       <div className="mb-8">
         <div className="w-64 h-2 bg-white rounded-full">
