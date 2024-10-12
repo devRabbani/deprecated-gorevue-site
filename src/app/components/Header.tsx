@@ -25,7 +25,9 @@ export const Header: React.FC = () => {
   return (
     <header className="relative flex justify-between items-center p-4 bg-white shadow-md">
       <div className="logo">
-        <Image src="/logo.png" alt="Revue Logo" width={100} height={40} />
+        <Link href="/">
+          <Image src="/logo.png" alt="Revue Logo" width={100} height={40} />
+        </Link>
       </div>
       <nav className="hidden md:flex items-center space-x-6">
         <Link
